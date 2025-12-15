@@ -106,7 +106,7 @@ export default function ChatbotPage() {
   return (
     <div className="h-screen w-screen bg-black flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 fixed top-0">
         <h1 className="text-white font-semibold tracking-tight text-lg sm:text-xl">
           Lumina AI
         </h1>
