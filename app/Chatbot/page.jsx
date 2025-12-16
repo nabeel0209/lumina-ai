@@ -119,7 +119,7 @@ export default function ChatbotPage() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-6 space-y-4">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-6 space-y-4 pt-16">
         {messages.map((msg, index) => {
           const isLast = index === messages.length - 1;
 
