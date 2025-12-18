@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  authDomain: 'ai-chatbot-a8559.firebaseapp.com',
+  projectId: 'ai-chatbot-a8559',
+  storageBucket: 'ai-chatbot-a8559.firebasestorage.app',
+  messagingSenderId: '469548108186',
+  appId: '1:469548108186:web:2b003b2cca7e8efc725223',
+  measurementId: 'G-D50W5STWQD'
 };
 
 const app = initializeApp(firebaseConfig);
