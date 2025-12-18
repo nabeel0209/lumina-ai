@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
+  apiKey: "AIzaSyDmTGeXPIYOxtF_aALOnCQnEHEXWIbtUNM",
   authDomain: "ai-chatbot-a8559.firebaseapp.com",
   projectId: "ai-chatbot-a8559",
   storageBucket: "ai-chatbot-a8559.firebasestorage.app",

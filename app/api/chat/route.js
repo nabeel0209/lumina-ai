@@ -16,7 +16,7 @@ async function retryWithBackoff(fn, retries = 3, delay = 1000) {
 export async function POST(req) {
   try {
     const { message } = await req.json();
-    const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     const generate = async () =>
       ai.models.generateContent({
