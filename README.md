@@ -48,4 +48,4 @@ Lumina AI is a modern AI-powered chatbot built with **Next.js**, **Tailwind CSS*
 
 ## Live Demo
 
-Check out the chatbot live here: [Lumina AI Live](https://your-live-link.com)
+Check out the chatbot live here: [Lumina AI Live](https://lumina-ai-xi.vercel.app)
