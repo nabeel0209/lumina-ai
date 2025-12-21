@@ -10,8 +10,23 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+
+export const MessageContent = memo(({ msg }) => {
+  if (msg.role === "bot") {
+    return (
+      <div
+        className="prose prose-invert prose-sm max-w-none"
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(marked(msg.content)),
+        }}
+      />
+    );
+  }
+  return <>{msg.content}</>;
+});
 
 export default function ChatbotPage() {
   const [user, setUser] = useState(null);
@@ -19,18 +34,6 @@ export default function ChatbotPage() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
-
-  const MessageContent = memo(({ msg }) => {
-    if (msg.role === "bot") {
-      return (
-        <div
-          className="prose prose-invert prose-sm max-w-none"
-          dangerouslySetInnerHTML={{ __html: marked(msg.content) }}
-        />
-      );
-    }
-    return msg.content;
-  });
 
   const router = useRouter();
 
@@ -70,7 +73,7 @@ export default function ChatbotPage() {
   }, [messages, loading]);
 
   const sendMessage = async () => {
-    if (!input.trim() || !user) return;
+    if (!input.trim() || !user || loading) return;
 
     const text = input;
     setInput("");
@@ -89,6 +92,8 @@ export default function ChatbotPage() {
         body: JSON.stringify({ message: text }),
       });
 
+      if (!res.ok) throw new Error("AI request failed");
+
       const data = await res.json();
 
       await addDoc(collection(db, "chats", user.uid, "messages"), {
@@ -98,6 +103,12 @@ export default function ChatbotPage() {
       });
     } catch (err) {
       console.error(err);
+
+      await addDoc(collection(db, "chats", user.uid, "messages"), {
+        role: "bot",
+        content: "AI is temporarily unavailable. Please try again.",
+        timestamp: Date.now(),
+      });
     } finally {
       setLoading(false);
     }
@@ -177,13 +188,17 @@ export default function ChatbotPage() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !loading) sendMessage();
+            }}
             placeholder="Ask Lumina anything..."
             className="flex-1 h-12 rounded-full bg-black border border-white/20 px-4 text-sm text-white placeholder-white/40 outline-none focus:border-white transition"
           />
+
           <button
             onClick={sendMessage}
-            className="h-12 px-5 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition"
+            disabled={loading}
+            className="h-12 px-5 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Send
           </button>
